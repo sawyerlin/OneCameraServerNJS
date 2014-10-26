@@ -31,6 +31,7 @@ wsServer.on('request', function(request){
 	var connection = request.accept('echo-portocol', request.origin);
 	console.log((new Date()) + ' Connection accepted.');
 	connection.on('message', function(message){
+		console.log(message)
 		if(message.type === 'utf8'){
 			console.log('Received Message: ' + message.utf8Data);
 			connection.sendUTF(message.utf8Data);
@@ -42,7 +43,7 @@ wsServer.on('request', function(request){
 	});
 	
 	connection.on('close', function(reasonCode, description) {
-		console.log((new Data()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+		console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
 
 	});
 });
