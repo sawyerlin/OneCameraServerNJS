@@ -1,3 +1,4 @@
+require('buffer');
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 var _ = require('underscore');
@@ -28,7 +29,10 @@ function originIsAllowed(origin){
 
 function broadCast(data){
 	var receivers = _.where(connections, {resource: '/receive'});
-	console.log(receivers.length);
+	_.each(receivers, function (receiver) {
+		// var buffer = new Buffer(data);
+		receiver.sendUTF(data.utf8Data);
+	});
 }
 
 wsServer.on('request', function(request){
@@ -46,17 +50,6 @@ wsServer.on('request', function(request){
 	console.log((new Date()) + ' Connection accepted.');
 	connection.on('message', function(message){
 		broadCast(message);
-		if(message.type === 'utf8'){
-		//	console.log('Received Message: ' + message.utf8Data);
-		//	connection.sendUTF(message.utf8Data);
-		}	
-		else if (message.type === 'binary') {
-		//	console.log('Received Binary Message of ' + message.binaryData.length + ' bytes')
-		//	connection.sendBytes(message.binaryData);
-		}
-		else {
-			// console.log(message)
-		}
 	});
 
 	connection.on('close', function(reasonCode, description) {
