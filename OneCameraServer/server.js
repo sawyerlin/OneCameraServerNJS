@@ -1,4 +1,3 @@
-require('buffer');
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 var _ = require('underscore');
@@ -30,7 +29,6 @@ function originIsAllowed(origin){
 function broadCast(data){
 	var receivers = _.where(connections, {resource: '/receive'});
 	_.each(receivers, function (receiver) {
-		// var buffer = new Buffer(data);
 		receiver.sendUTF(data.utf8Data);
 	});
 }
@@ -48,7 +46,12 @@ wsServer.on('request', function(request){
 	connections.push(connection);
 	_.each(connections, function(con){console.log(con.remoteAddress + " Connected: " + con.connected);});
 	console.log((new Date()) + ' Connection accepted.');
+	var once = false;
 	connection.on('message', function(message){
+		if(!once) {
+			once = true;
+			console.log(message.utf8Data);
+		}
 		broadCast(message);
 	});
 
