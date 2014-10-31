@@ -1,0 +1,8 @@
+{
+	"name" : "OneCameraServer",
+	"main" : "server.js",
+	"dependencies" : {
+		"websocket" : "latest",
+		"underscore" : "latest"
+	}
+}
