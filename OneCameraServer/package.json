@@ -3,6 +3,8 @@
 	"main" : "server.js",
 	"dependencies" : {
 		"websocket" : "latest",
-		"underscore" : "latest"
+		"underscore" : "latest",
+		"mongoose" : "latest"
+
 	}
 }
